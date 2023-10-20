@@ -1,0 +1,22 @@
+{
+  "name": "chonk-server",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "@elysiajs/graphql-yoga": "^0.7.0",
+    "@elysiajs/swagger": "^0.7.3",
+    "@prisma/client": "5.4.2",
+    "elysia": "latest",
+    "graphql": "^16.8.1",
+    "graphql-yoga": "^5.0.0",
+    "typeid-js": "^0.3.0"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "prisma": "^5.4.2"
+  },
+  "module": "src/index.js"
+}
