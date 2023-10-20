@@ -1,4 +1,4 @@
-const gqlTypeDefs = /* GraphQL */ `
+const WorkspacesGqlTypeDefs = /* GraphQL */ `
   type Query {
     getWorkspace(id: String!, ownerId: String!): Workspace
     getAllWorkspaces(ownerId: String!): [Workspace]
@@ -19,4 +19,4 @@ const gqlTypeDefs = /* GraphQL */ `
   }
 `;
 
-export default gqlTypeDefs;
+export default WorkspacesGqlTypeDefs;
