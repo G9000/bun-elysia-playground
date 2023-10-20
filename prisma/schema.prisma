@@ -7,10 +7,42 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+// User Type
 model User {
-    id        String    @id
-    email     String    @unique
-    username  String?
-    createdAt DateTime  @default(now())
-    updatedAt DateTime? @updatedAt
+    id         String      @id @unique
+    email      String      @unique
+    username   String?
+    workspaces Workspace[]
+    createdAt  DateTime    @default(now())
+    updatedAt  DateTime?   @updatedAt
+}
+
+model Workspace {
+    id          String         @id @unique
+    name        String
+    description String?
+    ownerId     String
+    tags        WorkspaceTag[]
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime?      @updatedAt
+
+    owner User @relation(fields: [ownerId], references: [id])
+}
+
+model Tag {
+    id         String         @id @unique
+    name       String
+    workspaces WorkspaceTag[]
+    createdAt  DateTime       @default(now())
+    updatedAt  DateTime?      @updatedAt
+}
+
+model WorkspaceTag {
+    workspaceId String
+    tagId       String
+
+    workspace Workspace @relation(fields: [workspaceId], references: [id])
+    tag       Tag       @relation(fields: [tagId], references: [id])
+
+    @@id([workspaceId, tagId])
 }

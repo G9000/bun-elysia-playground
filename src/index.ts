@@ -1,30 +1,8 @@
-import { Elysia, t } from "elysia";
-import { PrismaClient } from "@prisma/client";
-import { swagger } from "@elysiajs/swagger";
+import { Elysia } from "elysia";
 import { yoga } from "@elysiajs/graphql-yoga";
-import { createContext } from "./context";
-import { UserResolver } from "./resources/users/route";
-
-const db = new PrismaClient();
-
-// const schema = new Elysia().use(
-//   yoga({
-//     typeDefs: /* GraphQL */ `
-//       type Query {
-//         hi: String
-//         testingoo: String
-//       }
-//     `,
-//     context: createContext,
-//     useContext(_) {},
-//     resolvers: {
-//       Query: {
-//         hi: async (parent, args, context) => context.prisma.use,
-//         testingoo: () => 1,
-//       },
-//     },
-//   })
-// );
+import { createContext } from "~/context";
+import { swagger } from "@elysiajs/swagger";
+import schema from "./routes";
 
 const app = new Elysia()
   .use(
@@ -37,7 +15,13 @@ const app = new Elysia()
       },
     })
   )
-  .use(UserResolver)
+  .use(
+    yoga({
+      schema: schema,
+      context: createContext,
+      useContext: (_) => {},
+    })
+  )
   .listen(3000);
 
 console.log(

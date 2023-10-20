@@ -1,9 +1,9 @@
 {
-  "name": "chonk-server",
+  "name": "thonkr",
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts docker && run -p 5432:5432 -e POSTGRES_PASSWORD=12345678 -d postgres"
   },
   "dependencies": {
     "@elysiajs/graphql-yoga": "^0.7.0",
