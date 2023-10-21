@@ -5,7 +5,7 @@ import {
   WorkspacesFetchAllParams,
 } from "./validation";
 import type { Workspace } from "@prisma/client";
-import { GraphQLContext } from "../../context";
+import { GraphQLContext } from "~/context";
 import { handleErrors } from "~/utils/error-utils";
 
 export async function registerWorkspace(

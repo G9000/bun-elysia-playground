@@ -26,7 +26,8 @@ model Workspace {
     createdAt   DateTime       @default(now())
     updatedAt   DateTime?      @updatedAt
 
-    owner User @relation(fields: [ownerId], references: [id])
+    owner     User       @relation(fields: [ownerId], references: [id])
+    Workflows Workflow[]
 }
 
 model Tag {
@@ -45,4 +46,29 @@ model WorkspaceTag {
     tag       Tag       @relation(fields: [tagId], references: [id])
 
     @@id([workspaceId, tagId])
+}
+
+model Workflow {
+    id          String    @id @unique
+    name        String
+    description String?
+    workspaceId String
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime? @updatedAt
+
+    workspace Workspace @relation(fields: [workspaceId], references: [id])
+    Modules   Module[]
+}
+
+model Module {
+    id          String    @id @unique
+    name        String
+    description String?
+    workflowId  String
+    items       Json?
+    version     Int?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime? @updatedAt
+
+    workflow Workflow @relation(fields: [workflowId], references: [id])
 }
