@@ -1,7 +1,5 @@
-import { Elysia } from "elysia";
-import { yoga } from "@elysiajs/graphql-yoga";
-import type { Workspace } from "@prisma/client";
-import { GraphQLContext, createContext } from "~/context";
+import { Workspace } from "@prisma/client";
+import { GraphQLContext } from "~/context";
 import {
   registerWorkspace,
   fetchAllWorkspaces,
@@ -12,7 +10,6 @@ import {
   WorkspaceFetchParams,
   WorkspacesFetchAllParams,
 } from "./validation";
-import gqlTypeDefs from "./schema";
 
 const WorkspaceResolver = {
   Query: {
@@ -35,14 +32,5 @@ const WorkspaceResolver = {
     ): Promise<Workspace | undefined> => registerWorkspace(args, context),
   },
 };
-
-// const WorkspaceResolver = new Elysia().use(
-//   yoga({
-//     typeDefs: gqlTypeDefs,
-//     context: createContext,
-//     useContext: (_) => {},
-//     resolvers: resolversConfig,
-//   })
-// );
 
 export default WorkspaceResolver;
