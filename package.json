@@ -7,14 +7,19 @@
   },
   "dependencies": {
     "@elysiajs/graphql-yoga": "^0.7.0",
+    "@elysiajs/lucia-auth": "^0.0.0-exp-20230623.312",
     "@elysiajs/swagger": "^0.7.3",
+    "@lucia-auth/adapter-prisma": "^3.0.2",
     "@prisma/client": "5.4.2",
     "elysia": "latest",
     "graphql": "^16.8.1",
     "graphql-yoga": "^5.0.0",
+    "lucia": "^2.7.1",
+    "resend": "^1.1.0",
     "typeid-js": "^0.3.0"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.6",
     "bun-types": "latest",
     "prisma": "^5.4.2"
   },

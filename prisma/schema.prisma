@@ -9,66 +9,106 @@ datasource db {
 
 // User Type
 model User {
-    id         String      @id @unique
-    email      String      @unique
-    username   String?
-    workspaces Workspace[]
-    createdAt  DateTime    @default(now())
-    updatedAt  DateTime?   @updatedAt
+    id             String    @id @unique
+    email          String    @unique
+    username       String?
+    email_verified Boolean   @default(false)
+    avatar         String?
+    created_at     DateTime  @default(now())
+    updated_at     DateTime? @updatedAt
+
+    workspaces        Workspace[]
+    auth_session      Session[]
+    key               Key[]
+    email_verfication EmailVerification?
+}
+
+model EmailVerification {
+    id         String    @id @default(uuid())
+    user_id    String    @unique
+    expires    DateTime
+    created_at DateTime  @default(now())
+    updated_at DateTime? @updatedAt
+    user       User      @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+    @@index([user_id])
+}
+
+model Session {
+    id             String    @id @unique
+    user_id        String
+    active_expires BigInt
+    idle_expires   BigInt
+    created_at     DateTime  @default(now())
+    updated_at     DateTime? @updatedAt
+    user           User      @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+    @@index([user_id])
+}
+
+model Key {
+    id              String    @id @unique
+    hashed_password String?
+    user_id         String
+    created_at      DateTime  @default(now())
+    updated_at      DateTime? @updatedAt
+    user            User      @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+    @@index([user_id])
 }
 
 model Workspace {
     id          String         @id @unique
     name        String
     description String?
-    ownerId     String
+    owner_id    String
     tags        WorkspaceTag[]
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime?      @updatedAt
+    created_at  DateTime       @default(now())
+    updated_at  DateTime?      @updatedAt
 
-    owner     User       @relation(fields: [ownerId], references: [id])
-    Workflows Workflow[]
+    owner     User       @relation(fields: [owner_id], references: [id])
+    workflows Workflow[]
 }
 
 model Tag {
     id         String         @id @unique
     name       String
     workspaces WorkspaceTag[]
-    createdAt  DateTime       @default(now())
-    updatedAt  DateTime?      @updatedAt
+    created_at DateTime       @default(now())
+    updated_at DateTime?      @updatedAt
 }
 
 model WorkspaceTag {
-    workspaceId String
-    tagId       String
+    workspace_id String
+    tag_id       String
 
-    workspace Workspace @relation(fields: [workspaceId], references: [id])
-    tag       Tag       @relation(fields: [tagId], references: [id])
+    workspace Workspace @relation(fields: [workspace_id], references: [id])
+    tag       Tag       @relation(fields: [tag_id], references: [id])
 
-    @@id([workspaceId, tagId])
+    @@id([workspace_id, tag_id])
 }
 
 model Workflow {
-    id          String    @id @unique
-    name        String
-    description String?
-    workspaceId String
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime? @updatedAt
+    id           String    @id @unique
+    name         String
+    description  String?
+    workspace_id String
+    created_at   DateTime  @default(now())
+    updated_at   DateTime? @updatedAt
 
-    workspace Workspace @relation(fields: [workspaceId], references: [id])
-    Modules   Module[]
+    workspace Workspace @relation(fields: [workspace_id], references: [id])
+    modules   Module[]
 }
 
 model Module {
     id          String    @id @unique
     name        String
     description String?
-    workflowId  String
+    workflow_id String
     items       Json?
     version     Int?
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime? @updatedAt
+    created_at  DateTime  @default(now())
+    updated_at  DateTime? @updatedAt
 
-    workflow Workflow @relation(fields: [workflowId], references: [id])
+    workflow Workflow @relation(fields: [workflow_id], references: [id])
 }
